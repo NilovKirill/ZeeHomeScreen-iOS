@@ -94,7 +94,12 @@ import ApplicasterSDK
         }
         
         for (index, entry) in entries.enumerated() {
-            if let component = self.parseComponent(at: index, entry: entry, componentModel: feedComponent) {
+            
+            if let _ = entry as? APAtomContainerProtocol {
+                if let component = parse(data: entry as? NSObject, componentModel: componentModel, isParentModel: true) {
+                    components.append(component)
+                }
+            } else if let component = self.parseComponent(at: index, entry: entry, componentModel: feedComponent) {
                 component.parentModel = feedComponent
                 components.append(component)
             }
